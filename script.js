@@ -1,19 +1,20 @@
 let items = [];
+let selectedItem = null;
 
-const container = document.getElementById('inputArea');
+const container = document.getElementById("inputArea");
 
 function finalDisplay() {
-    container.innerHTML = '';
+  container.innerHTML = "";
 
-    items.forEach((item, index) => {
-        const box = document.createElement('div');
-        box.className = 'box';
-        box.onclick = () => showContent(item);
-        box.innerHTML = `
-        <button onclick='removeContent(${index})' class='btn-remove'>X</button>
+  items.forEach((item, index) => {
+    const box = document.createElement("div");
+    box.className = "box";
+    box.onclick = () => showContent(item);
+    box.innerHTML = `
+        <button onclick='event.stopPropagation();removeContent(${index})' class='btn-remove'>X</button>
          
         <div class='box-container'>
-            <input type='checkbox' class='check' ${item.checked ? 'checked' : ''}>
+            <input type='checkbox' class='check' ${item.checked ? "checked" : ""}>
             <div class='box-contain'>
             
                 <h3>${item.title}</h3>
@@ -26,86 +27,73 @@ function finalDisplay() {
 
         </div>`;
 
+    container.appendChild(box);
 
-        container.appendChild(box);
+    const check = box.querySelector(".check");
+    const title = box.querySelector("h3");
+    const desc = box.querySelector("p");
 
-        const check = box.querySelector('.check');
-        const title = box.querySelector('h3');
-        const desc = box.querySelector('p');
+    if (check.checked) {
+      title.style.textDecoration = "line-through";
+      desc.style.textDecoration = "line-through";
+    }
 
-        if (check.checked) {
-            title.style.textDecoration = 'line-through';
-            desc.style.textDecoration = 'line-through';
-        }
+    check.addEventListener("change", function () {
+      item.checked = check.checked;
 
-        check.addEventListener("change", function () {
-            item.checked = check.checked;
-
-            if (check.checked) {
-                title.style.textDecoration = 'line-through';
-                desc.style.textDecoration = 'line-through';
-            }
-            else {
-                title.style.textDecoration = 'none';
-                desc.style.textDecoration = 'none';
-            }
-        });
-
-
-
-
-
-
+      if (check.checked) {
+        title.style.textDecoration = "line-through";
+        desc.style.textDecoration = "line-through";
+      } else {
+        title.style.textDecoration = "none";
+        desc.style.textDecoration = "none";
+      }
     });
+  });
 }
 
 function removeContent(index) {
-    items.splice(index, 1);
-    finalDisplay();
+  // const deletedItem = items[index];
+  // const rightContainer = document.getElementById("mainPortion");
+  items.splice(index, 1);
+  // if (selectedItem === deletedItem) {
+  document.getElementById("mainPortion").innerHTML = "";
+  //   selectedItem = null;
+  // }
 
+  finalDisplay();
 }
 function showContent(item) {
-    const rightContainer = document.getElementById('mainPortion');
+  const rightContainer = document.getElementById("mainPortion");
+  // rightContainer.dataset.title = item.title;
+  selectedItem = item;
 
-    if (rightContainer.innerHTML !== '') {
-        rightContainer.innerHTML = '';
-    } else {
-        rightContainer.innerHTML = `
+  rightContainer.innerHTML = `
             <h3>${item.title}</h3>
             <p>${item.desc}</p>
-        `;
-    }
-
-};
-
-
+      `;
+}
 
 function openPop() {
-    document.getElementById('popupBox').classList.add('show');
+  document.getElementById("popupBox").classList.add("show");
 }
 function cancelPop() {
-    document.getElementById('popupBox').classList.remove('show');
+  document.getElementById("popupBox").classList.remove("show");
 }
 function savePop() {
-    const title = document.getElementById('inputContent').value;
-    const desc = document.getElementById('textContent').value;
-    const time = document.getElementById('time').value;
+  const title = document.getElementById("inputContent").value;
+  const desc = document.getElementById("textContent").value;
+  const time = document.getElementById("time").value;
 
-    items.push({
-        title: title,
-        desc: desc,
-        time: time,
-        checked: false
-    });
-    finalDisplay();
-    cancelPop();
+  items.push({
+    title: title,
+    desc: desc,
+    time: time,
+    checked: false,
+  });
+  finalDisplay();
+  cancelPop();
 
-    document.getElementById('inputContent').value = '';
-    document.getAnimations('textContent').value = '';
-
+  document.getElementById("inputContent").value = "";
+  document.getElementById("textContent").value = "";
 }
-
-
-
-
-
