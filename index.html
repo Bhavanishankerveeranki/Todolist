@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="left-title">To-Do-List</div>
+            <div class="input-container" id="inputArea"></div>
+            <button class="item-btn" onclick="openPop()">+ Add New List</button>
+        </div>
+        <div class="right" id="mainPortion"></div>
+    </div>
+    <div class="popup-box" id="popupBox">
+        <div class="content">
+            <h3>Add New Item</h3>
+            <input type="text" id="inputContent" placeholder="write task">
+            <textarea id='textContent' placeholder="Description"></textarea>
+            <br>
+            <input type="datetime-local" id="time">
+            <br>
+            <div class="pop-buttons">
+                <button class="btn-cancel" onclick="cancelPop()">Cancel</button>
+                <button class="btn-okay" onclick="savePop()">Save</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+
+</html>
